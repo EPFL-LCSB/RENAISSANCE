@@ -1,0 +1,41 @@
+models:
+  strain_1: 'models/varma_ecoli_shikki/kinetic/kin_varma_curated.yaml'
+
+biomass:
+  strain_1: "LMPD_biomass_c_1_420"
+
+biomass_scaling:
+  strain_1: 500000.0 # i.e. DM_biomass_c/LMPD_biomass_c_1_420
+
+extracellular_compartment: e
+
+initial_medium:
+  glc_D_e : 0.055 # 10 g/L - added a bit more for the initial settling period
+  pi_e : 0.064 # Includes H2PO4
+  nh4_e: 0.018
+  ca2_e: 0.00013
+  mg2_e: 0.002
+  cl_e: 0.02752
+  k_e: 0.022044883
+  so4_e: 0.002
+  co2_e: 1e-07 # This is uncertain
+  o2_e: 0.14 # This is uncertain
+  h_e: 1e-07 # pH of 7
+  trp_L_e: 9.8e-05
+  ac_e: 1e-06
+
+reactor_volume: 5e13 # Units of cell volume! here v_cell in units of 1 mum^3 = 1e-15 L % we want 50 mL = 0.05L
+
+scaling:
+  concentration: 1e6 # for the shikki varma
+  density: 1105.0
+  gDW_gWW: 0.38
+  time: 1.0
+
+boundary_conditions: # what all should I add here/ in reality if you have acetate secretion - you have a decrease in pH
+  CC_co2_e:
+    class: ConstantConcentration
+    reactant: co2_e
+  CC_h_e:
+    class: ConstantConcentration
+    reactant: h_e

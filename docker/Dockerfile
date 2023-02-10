@@ -1,8 +1,8 @@
 
-FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
-CMD nvidia-smi
+#FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
+#CMD nvidia-smi
 
-RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/usr/local/cuda/lib64"
+#RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/usr/local/cuda/lib64"
 
 FROM python:3.6-stretch
 # Install missing deps
