@@ -1,0 +1,6 @@
+#!/bin/sh
+docker run 	--rm -it --gpus all			\
+		-v $(pwd)/work:/home/renaissance/work \
+		-v $(pwd)/..:/renaissance	\
+		-v $(pwd)/../../smolfem:/smolfem	\
+		renaissance_docker

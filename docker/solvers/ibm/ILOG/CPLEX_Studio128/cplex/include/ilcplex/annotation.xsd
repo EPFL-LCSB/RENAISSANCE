@@ -1,0 +1,56 @@
+<!-- CPLEX Solution file CPX_XML_VERSION 1.2 -->
+<!-- Copyright IBM Corporation 2016, 2017. All Rights Reserved. -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="CPLEXAnnotations">
+ <xsd:complexType>
+  <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+   <xsd:element name="CPLEXAnnotation">
+     <xsd:complexType>
+       <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+         <xsd:element name="object">
+           <xsd:complexType>
+             <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+               <xsd:element name="anno">
+                 <xsd:complexType>
+                   <!-- If "name" and "index" are present then "name" is used first.
+                        Only if that cannot be resolved the "index" attribute is used. -->
+                   <xsd:attribute name="index" type="xsd:string"/>
+                   <xsd:attribute name="name" type="xsd:string"/>
+                   <xsd:attribute name="value" use="required" type="xsd:string"/>
+                 </xsd:complexType>
+               </xsd:element>
+             </xsd:sequence>
+             <xsd:attribute name="type" use="required">
+               <xsd:simpleType>
+                 <xsd:restriction base="xsd:nonNegativeInteger">
+                   <xsd:enumeration value="0"/> <!-- CPX_ANNOTATIONOBJ_OBJ -->
+                   <xsd:enumeration value="1"/> <!-- CPX_ANNOTATIONOBJ_COL -->
+                   <xsd:enumeration value="2"/> <!-- CPX_ANNOTATIONOBJ_ROW -->
+                   <xsd:enumeration value="3"/> <!-- CPX_ANNOTATIONOBJ_SOS -->
+                   <xsd:enumeration value="4"/> <!-- CPX_ANNOTATIONOBJ_IND -->
+                   <xsd:enumeration value="5"/> <!-- CPX_ANNOTATIONOBJ_QC -->
+                 </xsd:restriction>
+               </xsd:simpleType>
+             </xsd:attribute>
+           </xsd:complexType>
+         </xsd:element>
+       </xsd:sequence>
+       <xsd:attribute name="name" use="required" type="xsd:string"/>
+       <xsd:attribute name="type" use="required">
+         <xsd:simpleType>
+           <xsd:restriction base="xsd:string">
+             <xsd:enumeration value="long"/>
+             <xsd:enumeration value="double"/>
+           </xsd:restriction>
+         </xsd:simpleType>
+       </xsd:attribute>
+       <xsd:attribute name="default" use="required" type="xsd:string"/>
+     </xsd:complexType>
+   </xsd:element>
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>
+

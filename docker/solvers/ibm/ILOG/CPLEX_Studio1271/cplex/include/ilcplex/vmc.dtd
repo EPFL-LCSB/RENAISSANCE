@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- CPLEX Virtual Machine Configuration File, version 1.0 -->
+<!-- Copyright IBM Corporation 2013, 2017. All Rights Reserved. -->
+
+<!-- Top level element is vmc -->
+<!ELEMENT vmc (machine*)>
+
+<!-- Machine description looks like this
+  <machine name="...">
+    <transport type="...">
+      For MPI transport
+      <rank value="...">
+      For TCP/IP transport
+      <address host="..." port="..."/>
+      <host value="..."/>
+      <port value="..."/>
+      Optional connection arguments
+      <cmdline>
+        <item value="...">
+      </cmdline>
+    </transport>
+    Optional parameter settings
+    <param name="..." value="..."/>
+  </machine>
+-->
+<!ELEMENT machine (transport, param*)>
+<!ATTLIST machine
+ name CDATA #IMPLIED
+>
+
+<!ELEMENT transport (((address|(host,port)|(port,host))|rank)?,(cmdline?))>
+<!ATTLIST transport
+ type CDATA #REQUIRED
+>
+
+<!ELEMENT address EMPTY>
+<!ATTLIST address
+ host CDATA #REQUIRED
+ port CDATA #REQUIRED
+>
+<!ELEMENT host EMPTY>
+<!ATTLIST host value CDATA #REQUIRED>
+<!ELEMENT port EMPTY>
+<!ATTLIST port value CDATA #REQUIRED>
+
+<!ELEMENT rank EMPTY>
+<!ATTLIST rank value CDATA #REQUIRED>
+
+<!ELEMENT cmdline (item*)>
+<!ELEMENT item EMPTY>
+<!ATTLIST item
+ value CDATA #REQUIRED
+>
+
+<!ELEMENT param EMPTY>
+<!ATTLIST param
+ name CDATA #IMPLIED
+ value CDATA #IMPLIED
+>

@@ -1,0 +1,157 @@
+<!-- CPLEX Solution file CPX_XML_VERSION 1.2 -->
+<!-- Copyright IBM Corporation 2005, 2017. All Rights Reserved. -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="CPLEXSolutions">
+ <xsd:complexType>
+  <xsd:sequence>
+   <xsd:element ref="CPLEXSolution" minOccurs="1"/>
+  </xsd:sequence>
+  <xsd:attribute name="version" type="xsd:string"/>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="CPLEXSolution">
+ <xsd:complexType>
+  <xsd:sequence>
+   <xsd:element ref="header" maxOccurs="1"/>
+   <xsd:element ref="quality" maxOccurs="1" minOccurs="0"/>
+   <xsd:element ref="linearConstraints" maxOccurs="1" minOccurs="0"/>
+   <xsd:element ref="quadraticConstraints" maxOccurs="1" minOccurs="0"/>
+   <xsd:element ref="indicatorConstraints" maxOccurs="1" minOccurs="0"/>
+   <xsd:element ref="variables" maxOccurs="1" minOccurs="0"/>
+  </xsd:sequence>
+  <xsd:attribute name="version" type="xsd:string"/>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="header">
+ <xsd:complexType>
+  <xsd:attribute name="solutionMethodString">
+   <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+     <xsd:enumeration value="primal"/>
+     <xsd:enumeration value="dual"/>
+     <xsd:enumeration value="barrier"/>
+     <xsd:enumeration value="mip"/>
+     <xsd:enumeration value="unknown"/>
+    </xsd:restriction>
+   </xsd:simpleType>
+  </xsd:attribute>
+  <xsd:attribute name="solutionTypeString">
+   <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+     <xsd:enumeration value="basic"/>
+     <xsd:enumeration value="nonbasic"/>
+     <xsd:enumeration value="primal"/>
+     <xsd:enumeration value="unknown"/>
+    </xsd:restriction>
+   </xsd:simpleType>
+  </xsd:attribute> 
+  <xsd:attribute name="problemName" type="xsd:string"/>
+  <xsd:attribute name="solutionName" type="xsd:string"/>
+  <xsd:attribute name="solutionIndex" type="xsd:int"/>
+  <xsd:attribute name="solutionStatusString" type="xsd:string"/>
+  <xsd:attribute name="solutionTypeValue" type="xsd:int"/>
+  <xsd:attribute name="solutionMethodValue" type="xsd:int"/>
+  <xsd:attribute name="solutionStatusValue" type="xsd:int"/>
+  <xsd:attribute name="simplexIterations" type="xsd:int"/>
+  <xsd:attribute name="barrierIterations" type="xsd:int"/>
+  <xsd:attribute name="MIPIterations" type="xsd:int"/>
+  <xsd:attribute name="MIPNodes" type="xsd:int"/>
+  <xsd:attribute name="objectiveValue" type="xsd:double"/>
+  <xsd:attribute name="primalFeasible" type="xsd:boolean"/>
+  <xsd:attribute name="dualFeasible" type="xsd:boolean"/>
+  <xsd:attribute name="MIPStartEffortLevel" type="xsd:int"/>
+  <xsd:attribute name="writeLevel" type="xsd:int"/>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="quality">
+ <xsd:complexType>
+  <xsd:attribute name="epOpt" type="xsd:double"/>
+  <xsd:attribute name="epRHS" type="xsd:double"/>
+  <xsd:attribute name="epInt" type="xsd:double"/>
+  <xsd:attribute name="barEpComp" type="xsd:double"/>
+  <xsd:attribute name="barQCPEpComp" type="xsd:double"/>
+  <xsd:attribute name="maxIntInfeas" type="xsd:double"/>
+  <xsd:attribute name="maxPrimalInfeas" type="xsd:double"/>
+  <xsd:attribute name="maxDualInfeas" type="xsd:double"/>
+  <xsd:attribute name="maxPrimalResidual" type="xsd:double"/>
+  <xsd:attribute name="maxDualResidual" type="xsd:double"/>
+  <xsd:attribute name="maxX" type="xsd:double"/>
+  <xsd:attribute name="maxPi" type="xsd:double"/>
+  <xsd:attribute name="maxSlack" type="xsd:double"/>
+  <xsd:attribute name="maxRedCost" type="xsd:double"/>
+  <xsd:attribute name="kappa" type="xsd:double"/>
+  <xsd:attribute name="maxQCPrimalResidual" type="xsd:double"/>
+  <xsd:attribute name="maxQCSlackInfeas" type="xsd:double"/>
+  <xsd:attribute name="maxQCSlack" type="xsd:double"/>
+  <xsd:attribute name="maxCompSlack" type="xsd:double"/>
+  <xsd:attribute name="objGap" type="xsd:double"/>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="linearConstraints">
+ <xsd:complexType>
+  <xsd:sequence maxOccurs="unbounded">
+   <xsd:element ref="constraint"/>
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="quadraticConstraints">
+ <xsd:complexType>
+  <xsd:sequence maxOccurs="unbounded">
+   <xsd:element ref="constraint"/>
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="indicatorConstraints">
+ <xsd:complexType>
+  <xsd:sequence maxOccurs="unbounded">
+   <xsd:element ref="constraint"/>
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="variables">
+ <xsd:complexType>
+  <xsd:sequence maxOccurs="unbounded">
+   <xsd:element ref="variable"/>
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="variable">
+ <xsd:complexType>
+  <xsd:attribute name="name" type="xsd:string"/>
+  <xsd:attribute name="index" type="xsd:nonNegativeInteger"/>
+  <xsd:attribute name="value" type="xsd:double"/>
+  <xsd:attribute name="reducedCost" type="xsd:double"/>
+  <xsd:attribute name="status" type="basisStatus"/>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="constraint">
+ <xsd:complexType>
+  <xsd:attribute name="name" type="xsd:string"/>
+  <xsd:attribute name="index" type="xsd:nonNegativeInteger"/>
+  <xsd:attribute name="slack" type="xsd:double"/>
+  <xsd:attribute name="dual" type="xsd:double"/>
+  <xsd:attribute name="status" type="basisStatus"/>
+ </xsd:complexType>
+</xsd:element>
+
+<xsd:simpleType name="basisStatus">
+ <xsd:restriction base="xsd:string">
+  <xsd:enumeration value="LL"/>
+  <xsd:enumeration value="UL"/>
+  <xsd:enumeration value="BS"/>
+  <xsd:enumeration value="SB"/>
+ </xsd:restriction>
+</xsd:simpleType>
+
+</xsd:schema>
+
