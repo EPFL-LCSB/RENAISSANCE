@@ -1,5 +1,5 @@
 #!/bin/sh
-docker run 	--rm -it --gpus all			\
+docker run 	--rm -it			\
 		-v $(pwd)/work:/home/renaissance/work \
 		-v $(pwd)/..:/renaissance	\
 		-v $(pwd)/../../smolfem:/smolfem	\
