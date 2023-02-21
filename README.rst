@@ -1,6 +1,5 @@
 RENAISSANCE: Generation of kinetic models using Evolutionary Strategies
 ==========================================
-|Build Status| |Codecov| |Codacy branch grade| |license| 
 
 RENAISSANCE is a workflow to generate valid kinetic models of metabolism using evolutionary strategies on Neural Networks.
 Here are the instructions for installing and using the Python implementation of RENAISSANCE. This RENAISSANCE implementation uses SKimPy in the backend, however all SKimPy functionalities are installed automatically in the container based install and there is no need to install SKimPy seperately. Using this package you can do the following analyses:
@@ -34,83 +33,54 @@ Currently, RENAISSANCE is only available through a container based install.The d
 subfolder has all the necessary information and source files to set it
 up.
 
-Setup
-=====
-
-*This step is not required if you're using the container, which bundles all this.*
-
-You can install this module with ``pip``:
-
-*For Python 3, you might have to use* ``pip3`` *instead of* ``pip``
+Installation steps
+==================
+On command line, go to the docker folder of the repository and run the build bash script (build.bat for Windows) as follows,
 
 .. code:: bash
 
-    pip3 install skimpy
-
-or from source
+    cd /path/to/renaissance/docker
+    ./build
+    
+This will create a docker container already containing all the dependencies one needs to run RENAISSANCE. This may take several minutes depending on your system and PC specifications. After succesfull a build you will be returned to the command line. Run the docker container using the run bas script (run.bat for Windows)
 
 .. code:: bash
 
-    git clone https://github.com/EPFL-LCSB/skimpy.git /path/to/skimpy
-    pip3 install -e /path/to/skimpy
-
+    ./run
+    
+Configfile
+===========
+The configuration file (configfile.ini) in the docker/work folder contains all the hyperparameters and file paths that are used in RENAISSANCE. The file contains an explanation of each hyperparameter and how it is used. 
 
 Quick start
 ===========
-To get right into building kinetic models please find below a simple example to get started:
+To get right into building kinetic models you can follow the following steps:
 
-.. code-block:: python
+1. Download the kinetic models and associated steady state samples used in the manuscript from [here](https://doi.org/10.5281/zenodo.7628650) and store them in the RENAISSANCE/docker/work/ folder.
 
-    import numpy as np
-    from skimpy.core import *
-    from skimpy.mechanisms import *
+2. Open Ipython inside the docker container,
 
-    name = 'pfk'
-    metabolites = ReversibleMichaelisMenten.Reactants(substrate = 'A',
-                                                       product = 'B')
+.. code:: bash
 
-    parameters = ReversibleMichaelisMenten.Parameters(
-        vmax_forward = 1.0,
-        k_equilibrium=2.0,
-        km_substrate = 10.0,
-        km_product = 10.0,
-        total_enzyme_concentration = 1.0,
-    )
+    ipython
+    
+3. Run the following command to start RENAISSANCE workflow,
 
+.. code:: bash
 
-    pfk = Reaction(name=name,
-                   mechanism = ReversibleMichaelisMenten,
-                   reactants=metabolites,
-                   )
+    run 1-renaissance.py
+    
+Further Information
+===================
+Once the generator neural networks are optimised using RENAISSANCE you can load it and generate SKimPy compatible kinetic parameter sets by running using,
 
-    this_model = KineticModel()
-    this_model.add_reaction(pfk)
-    this_model.parametrize_by_reaction({pfk.name:parameters})
-    this_model.compile_ode(sim_type = QSSA)
+.. code:: bash
 
-    this_model.initial_conditions['A'] = 1.0
-    this_model.initial_conditions['B'] = 1.0
-
-    this_sol_qssa = this_model.solve_ode(np.linspace(0.0, 100.0, 1000), solver_type='cvode')
-
-    this_sol_qssa.plot('output/uni_uni_base_out_qssa.html')
-
-
-More information can be found
-`here <http://skimpy.readthedocs.io/en/latest/quickstart.html>`__.
-
-
+    run 2-load_and_generate.py
+    
+The resulting parameter sets can now be used for downstream studies like non-linear ODE simulations and bioreactor fermentations using the rest of the scripts by setting appropriate paths in the configuration file (configfile.ini)
    
 License
 ========
 
-The software in this repository is put under an APACHE-2.0 licensing scheme - please see the `LICENSE <https://github.com/EPFL-LCSB/skimpy/blob/master/LICENSE.txt>`_ file for more details.
-
-.. |license| image:: http://img.shields.io/badge/license-APACHE2-blue.svg
-   :target: https://github.com/EPFL-LCSB/skimpy/blob/master/LICENSE.txt
-.. |Build Status| image:: https://travis-ci.org/EPFL-LCSB/skimpy.svg?branch=master
-   :target: https://travis-ci.org/EPFL-LCSB/skimpy
-.. |Codecov| image:: https://img.shields.io/codecov/c/github/EPFL-LCSB/skimpy.svg
-   :target: https://codecov.io/gh/EPFL-LCSB/skimpy
-.. |Codacy branch grade| image:: https://img.shields.io/codacy/grade/d56d598a8a3b444e8ea5fb1f7eee6e2a
-   :target: https://www.codacy.com/app/realLCSB/skimpy
+The software in this repository is put under an APACHE-2.0 licensing scheme - please see the `LICENSE <https://github.com/EPFL-LCSB/RENAISSANCE/blob/master/LICENSE.txt>`_ file for more details.
