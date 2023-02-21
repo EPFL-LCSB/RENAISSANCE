@@ -1,5 +1,5 @@
 import helper as hp
-
+import numpy as np
 from configparser import ConfigParser
 from evostrat.init_mlp import MLP
 from kinetics.npy_to_hdf5 import store_as_hdf5
@@ -23,13 +23,13 @@ ss_idx = int(configs['EVOSTRAT']['ss_idx'])
 
 # Call neural network agent
 cond_class = 1
-mlp = MLP(cond_class, lnminkm, lnmaxkm, n_sets, names_km, param_fixing=pf_flag)
+mlp = MLP(cond_class, lnminkm, lnmaxkm, n_sets, names_km, param_fixing=pf_flag, latent=True)
 
 # Load saved weights and generate
 opt_weights = hp.load_pkl(path_to_weights)
 mlp.generator.set_weights(opt_weights)
-gen_params = mlp.sample_parameters()
+gen_params, noise = mlp.sample_parameters()
 
 # Calculate corresponding Vmaxs and save as .hdf5 for further downstream studies
 store_as_hdf5(gen_params, met_model, names_km, ss_idx, output_path, output_name)
-
+np.save(f'{output_path}{output_name}.npy', noise)

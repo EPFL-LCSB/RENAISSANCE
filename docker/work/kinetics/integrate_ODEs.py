@@ -20,9 +20,9 @@ import pandas as pd
 def integrate_ODEs(path_to_parameters, met_model, ss_idx, pc_perturb, output_path, output_name):
 
     TOUT = np.logspace(-9, 1, 1000)  # 1hr
-    CONCENTRATION_SCALING = 1e6  # 1 mol to 1 mmol
-    DENSITY = 1105
-    GDW_GWW_RATIO = 0.38
+    CONCENTRATION_SCALING = 1e9  # 1 mol to 1 mmol
+    DENSITY = 1200
+    GDW_GWW_RATIO = 0.25
     TIME_SCALING = 1
     flux_scaling_factor = 1e-3 * (GDW_GWW_RATIO * DENSITY * CONCENTRATION_SCALING) / TIME_SCALING
 

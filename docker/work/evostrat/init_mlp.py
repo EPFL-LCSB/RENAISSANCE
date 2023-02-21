@@ -24,6 +24,8 @@ class MLP():
         self.label_shape = 1
         self.param_fixing = param_fixing
         self.names_km = NAMES_km
+        self.latent = latent
+        self.noise = noise_input
 
         self.n_samples = n_samples
         self.n_parameters = int(configs['MLP']['no_kms'])
@@ -46,7 +48,7 @@ class MLP():
         self.generator = self.build_generator()
         self.generator.compile(loss=['binary_crossentropy'],
                                optimizer=optimizer)
-        self.generator.summary()
+        # self.generator.summary()
         # The generator takes noise and the target label as input
         # and generates the corresponding digit of that label
         noise = Input(shape=(self.latent_dim,))

@@ -23,11 +23,11 @@ class check_jacobian():
     def __init__(self):
 
         self.NCPU = 32
-        self.CONCENTRATION_SCALING = 1e6 # 1 mol to 1 mmol
+        self.CONCENTRATION_SCALING = 1e9 # 1 mol to 1 mmol
         self.TIME_SCALING = 1 # 1hr
         # Parameters of the E. Coli cell
-        self.DENSITY = 1105 # g/L
-        self.GDW_GWW_RATIO = 0.38 # Assumes 70% Water
+        self.DENSITY = 1200 # g/L
+        self.GDW_GWW_RATIO = 0.25 # Assumes 70% Water
         self.n_samples = 100
         pool = Pool()
         #print(f'FLux scaling factor: {1e-3*(self.GDW_GWW_RATIO*self.DENSITY)*self.CONCENTRATION_SCALING/self.TIME_SCALING}')

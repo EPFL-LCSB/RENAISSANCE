@@ -1,16 +1,15 @@
-REKINDLE: Reconsturction of Kinetic Models using Deep Learning
+RENAISSANCE: Generation of kinetic models using Evolutionary Strategies
 ==========================================
 |Build Status| |Codecov| |Codacy branch grade| |license| 
 
-SKiMpy is a python package bridging implementing an efficient kinetic model-ing toolbox to build and analyze large-scale kinetic models for various biological domains such as signaling, gene expression, and metabolism. Furthermore, we demonstrate how this toolbox is used to parameterize kinetic models around a steady-state reference efficiently. Finally, we show how SKiMpy can implement multispecies bioreactor simulations to assess biotechnological processes.
+RENAISSANCE is a workflow to generate valid kinetic models of metabolism using evolutionary strategies on Neural Networks.
+Here are the instructions for installing and using the Python implementation of RENAISSANCE. This RENAISSANCE implementation uses SKimPy in the backend, however all SKimPy functionalities are installed automatically in the container based install and there is no need to install SKimPy seperately. Using this package you can do the following analyses:
 
 
-    - Non-linear ordinary equations for large scale kinetic models
-    - Steady state consistent parameter sampling(see ORACLE)
-    - Metabolic control analysis
-    - Modal analysis
-    - Uncertainty propagation in metabolic control
-    - Multispecies bioreactor modeling
+    - Generate experimentally valid kinetic parameter sets around a predetermined steady state of metabolites and reaction fluxes using evolutionary strategies on neural networks.
+    - Test parameterized kinetic models for stability using Linear Stability Analysis. 
+    - Perform non-linear integration of parameterized ordinary differential equations.
+    - Perform Bioareactor simulations of a population of organisms from a parameterized kinetic model.
 
 Requirements
 ------------
@@ -19,41 +18,21 @@ You will need to have `Git-LFS <https://git-lfs.github.com/>`_ in order to prope
 
 .. code:: bash
 
-    git clone https://github.com/EPFL-LCSB/skimpy.git /path/to/skimpy
-    cd /path/to/skimpy
+    git clone https://github.com/EPFL-LCSB/renaissance.git /path/to/renaissance
+    cd /path/to/renaissance
     git lfs install
     git lfs pull
  
 
 
 This module was developed in Python 3.6, and it is recommended to run Python 3.6.
-The module also was tested in Python 3.7.
-
-Further the following pip-python packages are required
-    - sympy >= 1.1.
-    - pytest
-    - scipy
-    - numpy
-    - bokeh
-    - pandas
-    - Cython
-    - scikits.odes
-    - deap
-    - dill
-    - h5py
-    - escher
+The module also was tested in Python 3.7 and Microsoft Windows 11.
 
 Container-based install
 -----------------------
-
-You might want to use this program inside of a container. The
-|docker|_
+Currently, RENAISSANCE is only available through a container based install.The docker
 subfolder has all the necessary information and source files to set it
 up.
-
-.. |docker| replace:: ``docker/``
-.. _docker: https://github.com/EPFL-LCSB/skimpy/tree/master/docker
-
 
 Setup
 =====
