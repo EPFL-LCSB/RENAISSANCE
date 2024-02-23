@@ -20,17 +20,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		xvfb            \
 		xauth           \
 		ffmpeg          \
-        firefox-esr
+		sudo
 
 # Add a user
 ENV USER renaissance
 ENV HOME /home/$USER
 RUN useradd -ms "/bin/bash" "$USER"
+RUN echo "$USER":"$USER" | chpasswd && adduser $USER sudo
 WORKDIR $HOME
 
 # Create renaissance directory with proper permissions
 RUN mkdir /renaissance && chown $USER:$USER /renaissance
-RUN chmod 755 /renaissance
+RUN chmod 777 /renaissance
 
 # Copy src and python package requirements
 COPY src/ /src/
@@ -68,9 +69,10 @@ RUN rm -rf /solvers
 RUN /utils/activate_gurobi.sh
 
 # Set up workspace folder
-RUN mkdir /renaissance
+# RUN mkdir /renaissance
 COPY .bashrc $HOME
 RUN chown "$USER" "$HOME/.bashrc"
+RUN alias ll="ls -al"
 
 # Finalizing installation
 USER $USER

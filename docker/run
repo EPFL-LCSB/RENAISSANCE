@@ -1,6 +1,7 @@
 #!/bin/sh
-docker run 	--rm -it			\
+docker run --rm -it			\
+		-u root	\
 		-v $(pwd)/work:/home/renaissance/work \
 		-v $(pwd)/..:/renaissance	\
 		-v $(pwd)/../../smolfem:/smolfem	\
-		renaissance_docker
+		renaissance_docker	\
