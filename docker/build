@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build -t renaissance_docker .
+sudo docker build -t renaissance_docker .
