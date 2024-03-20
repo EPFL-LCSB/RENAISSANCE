@@ -1,8 +1,7 @@
+FROM python:3.6.14-stretch
+RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list
 
-FROM python:3.6-stretch
-# Install missing deps
-USER root
-# Install unix requirements for the docker
+# Install gfortran and other necessary packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libxml2-dev     \
         libxslt1-dev    \
@@ -21,83 +20,66 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		xvfb            \
 		xauth           \
 		ffmpeg          \
-        firefox-esr
+		sudo
 
+# Add a user
 ENV USER renaissance
 ENV HOME /home/$USER
-
 RUN useradd -ms "/bin/bash" "$USER"
-USER $USER
+RUN echo "$USER":"$USER" | chpasswd && adduser $USER sudo
 WORKDIR $HOME
 
-USER root
+# Create renaissance directory with proper permissions
+RUN mkdir /renaissance && chown $USER:$USER /renaissance
+RUN chmod 777 /renaissance
 
-# Add extra src if needed
-RUN mkdir /src
+# Copy src and python package requirements
 COPY src/ /src/
-
-# Copy python package requirements
-RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install --upgrade pipenv
 COPY requirements.txt .
+
+# Install Python packages
+RUN python3 -m pip install --upgrade pip setuptools==59.6.0 wheel
 RUN pip install -r requirements.txt
 
+# Make utils executable
 COPY ./utils /utils
-# Make executable
 RUN chmod +x /utils/*.sh
-
-# Install sundials
-#RUN /utils/install_chrome.sh
-
-# Clean up lists
-RUN rm -rf /var/lib/apt/lists/*
 
 # Install sundials
 RUN /utils/install_sundials.sh
 
+# Export environment variables
+ENV SUNDIALS_INCLUDEDIR="${HOME}/sundials/include"
+ENV SUNDIALS_LIBDIR="${HOME}/sundials/lib"
+ENV SUNDIALS_INST="${HOME}/sundials"
 
-# Export environment variables from installation
-ENV SUNDIALS_INCLUDEDIR ="${HOME}/sundials-5.1.0/include"
-ENV SUNDIALS_LIBDIR ="${HOME}/sundials-5.1.0/lib"
-ENV SUNDIALS_INST="${HOME}/sundials-5.1.0"
-# Install python interface to sundials
-#modify this
-RUN pip install 'scikits.odes==2.6.3'
-ENV LD_LIBRARY_PATH="${HOME}/sundials-5.1.0/lib"
-
+# Set up include path for Sundials headers
+ENV C_INCLUDE_PATH="${SUNDIALS_INST}/include"
+ENV LD_LIBRARY_PATH="${HOME}/sundials/lib"
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/usr/local/lib"
 
+# Install scikits.odes
+RUN pip install 'scikits.odes==2.6.3'
 
-
-
-# If files are provided install cplex and gurobi
+# If files are provided, install cplex and gurobi
 COPY ./solvers /solvers
 RUN /utils/install_cplex.sh
-# Install gurobi
 RUN /utils/install_gurobi.sh
-# Remove installers
 RUN rm -rf /solvers
-# Activation of necessary licenses
 RUN /utils/activate_gurobi.sh
 
-# Make the workspace folder that will link the sources
-RUN mkdir /renaissance
-
+# Set up workspace folder
+# RUN mkdir /renaissance
 COPY .bashrc $HOME
 RUN chown "$USER" "$HOME/.bashrc"
-#RUN chown -R "$USER" "$HOME/.cache"
+RUN alias ll="ls -al"
 
-#Finalizing installation
-
+# Finalizing installation
 USER $USER
 RUN mkdir ./work
-WORKDIR ./work
+WORKDIR /home/$USER/work
 
 # Load your package in development mode on startup
-#ENTRYPOINT ["/bin/bash", "-c", "pip install --user -e /skimpy/docker/pytfa && \
-#                                pip install --user -e /skimpy[ORACLE] && \
-#                                $0 $*"]
-ENTRYPOINT ["/bin/bash", "-c", "pip install --user -e /renaissance[ORACLE] && \
-                                $0 $*"]
+ENTRYPOINT ["/bin/bash", "-c", "pip install --user -e /renaissance[ORACLE] && $0 $*"]
 
 CMD /bin/bash

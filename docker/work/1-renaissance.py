@@ -88,8 +88,8 @@ pf_flag = int(configs['PARAMETER_FIXING']['pf_flag'])
 chk_jcbn = check_jacobian()
 
 # Integrate data
-chk_jcbn._load_ktmodels(met_model, 'fdp1')           ## Load kinetic and thermodynamic data
-chk_jcbn._load_ssprofile(met_model, 'fdp1', ss_idx)  ## Integrate steady state information
+chk_jcbn._load_ktmodels(met_model, "fdp1")           ## Load kinetic and thermodynamic data
+chk_jcbn._load_ssprofile(met_model, "fdp1", ss_idx)  ## Integrate steady state information
 
 
 for rep in range(repeats):

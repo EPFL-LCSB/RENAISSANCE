@@ -11,11 +11,11 @@ matplotlib
 # from setup.py
 sympy==1.3
 pytest
-scipy
-numpy
+scipy<=1.6
+numpy<=1.19
 pandas
 bokeh>=0.12.1
-Cython
+Cython<3.0.0
 # scikits.odes # installation/compilation done with sundials in Dockerfile
 deap
 dill
@@ -28,3 +28,4 @@ escher==1.7.0
 # Additional things that are useful in RabLab
 #python-libsbml
 xlrd
+helper
